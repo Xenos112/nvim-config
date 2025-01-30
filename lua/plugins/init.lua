@@ -27,6 +27,7 @@ return {
         "tsx",
         "go",
         "json",
+        "prisma",
       },
     },
   },
