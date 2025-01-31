@@ -31,4 +31,16 @@ return {
       },
     },
   },
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "typescript",
+      "javascript",
+      "typescriptreact",
+      "javascriptreact",
+    },
+    config = function()
+      require("nvim-ts-autotag").setup {}
+    end,
+  },
 }
