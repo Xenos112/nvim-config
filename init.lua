@@ -35,3 +35,8 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.cmd("hi Comment gui=italic")
+vim.cmd([[hi Normal guibg=NONE ctermbg=NONE]])
+vim.cmd("hi String gui=italic")
+vim.cmd("hi Keyword gui=italic")
