@@ -35,6 +35,7 @@ return {
         "go",
         "json",
         "prisma",
+        'vuels'
       },
     },
   },
