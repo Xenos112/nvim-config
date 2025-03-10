@@ -75,8 +75,14 @@ return {
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
     },
-    config = function()
+    opts = function()
       local cmp = require("cmp")
+      local rose_pine = {
+        base = "#191724",
+        pine = "#31748f",
+      }
+      vim.api.nvim_set_hl(0, "Pmenu", { bg = rose_pine.base })
+      vim.api.nvim_set_hl(0, "CmpBorder", { fg = rose_pine.pine, bg = rose_pine.base })
 
       cmp.setup({
         snippet = {
@@ -109,6 +115,16 @@ return {
           { name = "buffer" },
           { name = "path" },
         }),
+        window = {
+          completion = cmp.config.window.bordered({
+            border = "rounded",
+            winhighlight = "Normal:Pmenu,FloatBorder:CmpBorder",
+          }),
+          documentation = cmp.config.window.bordered({
+            border = "rounded",
+            winhighlight = "Normal:Pmenu,FloatBorder:CmpBorder",
+          }),
+        },
       })
     end,
   },
