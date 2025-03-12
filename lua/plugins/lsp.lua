@@ -22,6 +22,7 @@ return {
           "vuels",
           "jdtls",
           "prismals",
+          "pyright"
         },
       })
 
@@ -42,6 +43,7 @@ return {
           filetypes = { "vue" },
         },
         prismals = {},
+        pyright = {}
       }
 
       for server, config in pairs(servers) do
