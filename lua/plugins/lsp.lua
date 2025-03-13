@@ -1,13 +1,21 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    event = "BufRead",
+    "williamboman/mason.nvim",
+    lazy = false,
     dependencies = {
-      "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      require("mason").setup()
+      require("mason").setup({
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗",
+          },
+        }
+      })
+
       require("mason-lspconfig").setup({
         ensure_installed = {
           "ts_ls",
@@ -22,113 +30,84 @@ return {
           "vuels",
           "jdtls",
           "prismals",
-          "pyright"
+          "pyright",
         },
       })
-
-      local lspconfig = require("lspconfig")
-
-      local servers = {
-        lua_ls = {},
-        ts_ls = {},
-        gopls = {},
-        tailwindcss = {},
-        html = {},
-        jsonls = {},
-        eslint = {},
-        cssls = {},
-        clangd = {},
-        jdtls = {},
-        vuels = {
-          filetypes = { "vue" },
-        },
-        prismals = {},
-        pyright = {}
-      }
-
-      for server, config in pairs(servers) do
-        lspconfig[server].setup(config)
-      end
-
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
-      vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {})
-      vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, {})
-      vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, {})
-      vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, {})
-      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
-      vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, {})
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {})
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {})
-      vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-    end,
+    end
   },
   {
-    "hrsh7th/nvim-cmp",
-    event = "BufRead",
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
+      'saghen/blink.cmp',
     },
-    opts = function()
-      local cmp = require("cmp")
-      local rose_pine = {
-        base = "#191724",
-        pine = "#31748f",
-      }
-      vim.api.nvim_set_hl(0, "Pmenu", { bg = rose_pine.base })
-      vim.api.nvim_set_hl(0, "CmpBorder", { fg = rose_pine.pine, bg = rose_pine.base })
+    config = function()
+      local lspconfig = require('lspconfig')
+      local opts = { noremap = false, silent = true }
 
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "supermaven" },
-        }, {
-          { name = "buffer" },
-          { name = "path" },
-        }),
-        window = {
-          completion = cmp.config.window.bordered({
-            border = "rounded",
-            winhighlight = "Normal:Pmenu,FloatBorder:CmpBorder",
-          }),
-          documentation = cmp.config.window.bordered({
-            border = "rounded",
-            winhighlight = "Normal:Pmenu,FloatBorder:CmpBorder",
-          }),
-        },
-      })
-    end,
+      local on_attach = function(client, bufnr)
+        opts.buffer = bufnr
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+      end
+      local capabilities = require('blink.cmp').get_lsp_capabilities({})
+      local servers = { "ts_ls", "gopls", "tailwindcss", "html", "jsonls", "lua_ls", "eslint", "cssls", "clangd", "vuels",
+        "jdtls", "prismals", "pyright" }
+      for _, server in ipairs(servers) do
+        lspconfig[server].setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+      end
+    end
+  },
+  {
+    'saghen/blink.cmp',
+    event = { "InsertEnter" },
+    dependencies = 'rafamadriz/friendly-snippets',
+    version = '*',
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = {
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-e>'] = { 'hide', 'fallback' },
+        ['<CR>'] = { 'accept', 'fallback' },
+
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<Tab>'] = { 'select_next', 'fallback' },
+        ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
+        ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
+
+        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+
+        ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+      },
+
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
+      },
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+      fuzzy = { implementation = "prefer_rust_with_warning" }
+    },
+    opts_extend = { "sources.default" }
   },
   {
     "stevearc/conform.nvim",
@@ -171,9 +150,7 @@ return {
   },
   {
     "windwp/nvim-ts-autotag",
-    event = "VeryLazy",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
+    event = "InsertEnter",
+    opts = {},
   },
 }
