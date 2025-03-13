@@ -28,4 +28,26 @@ return {
       { "<leader>td", "<cmd>TodoTelescope<cr>" },
     },
   },
+  {
+    "goolord/alpha-nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    lazy = false,
+    config = function()
+      local alpha = require("alpha")
+      local dashboard = require("alpha.themes.dashboard")
+
+      -- Set custom header
+      dashboard.section.header.val = {
+        "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
+        "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
+        "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
+        "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+        "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
+        "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
+      }
+
+      -- Apply new config
+      alpha.setup(dashboard.config)
+    end
+  }
 }
