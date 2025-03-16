@@ -4,7 +4,16 @@ return {
     event = "BufRead",
     config = function(_opts)
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "lua", "typescript", "javascript", "go", "c", "tsx", "gomod", "gosum" },
+        ensure_installed = { "lua",
+          "typescript",
+          "javascript",
+          "go",
+          "c",
+          "tsx",
+          "gomod",
+          "gosum",
+          "hyprlang"
+        },
         highlight = {
           enable = true,
 
