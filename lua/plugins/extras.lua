@@ -25,4 +25,13 @@ return {
       { "<leader>td", "<cmd>TodoTelescope<cr>" },
     },
   },
+  {
+    "echasnovski/mini.nvim",
+    event = "InsertEnter",
+    config = function()
+      require("mini.comment").setup()
+      require("mini.pairs").setup()
+      require("mini.ai").setup()
+    end
+  }
 }
