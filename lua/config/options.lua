@@ -17,11 +17,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
--- remove the default splash screen
-vim.opt.shortmess:append("s")
-vim.opt.shortmess:append("c")
-vim.opt.shortmess:append("I")
-
 -- remove the ~ sumbol inthe the lines
 vim.opt.fillchars:append({ eob = " " })
 
