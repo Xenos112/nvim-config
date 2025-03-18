@@ -1,11 +1,64 @@
 return {
+  -- {
+  --   "rose-pine/neovim",
+  --   lazy = false,
+  --   name = "rose-pine",
+  --   opts = {},
+  --   config = function()
+  --     vim.cmd("colorscheme rose-pine")
+  --   end
+  -- },
   {
-    "rose-pine/neovim",
+    "catppuccin/nvim",
     lazy = false,
-    name = "rose-pine",
-    opts = {},
+    name = "catppuccin",
+    priority = 1000,
     config = function()
-      vim.cmd("colorscheme rose-pine")
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = true,
+        show_end_of_buffer = false,
+        term_colors = false,
+        dim_inactive = {
+          enabled = false,
+          shade = "dark",
+          percentage = 0.15,
+        },
+        no_italic = false,         -- Force no italic
+        no_bold = false,           -- Force no bold
+        no_underline = false,      -- Force no underline
+        styles = {                 -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" }, -- Change the style of comments
+          conditionals = { "italic" },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+        },
+        color_overrides = {},
+        custom_highlights = {},
+        default_integrations = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = {
+            enabled = true,
+            indentscope_color = "",
+          },
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+        },
+      })
+
+      vim.cmd.colorscheme "catppuccin"
     end
   },
   {
