@@ -15,7 +15,7 @@ return {
         },
 
         styles = {
-          bold = true,
+          bold = false,
           italic = true,
           transparency = true,
         },
@@ -49,20 +49,6 @@ return {
           h4 = "gold",
           h5 = "pine",
           h6 = "foam",
-        },
-
-        palette = {
-          -- Override the builtin palette per variant
-          -- moon = {
-          --     base = '#18191a',
-          --     overlay = '#363738',
-          -- },
-        },
-        highlight_groups = {
-          Comment = { fg = "foam" },
-          -- StatusLine = { fg = "love", bg = "love", blend = 15 },
-          -- VertSplit = { fg = "muted", bg = "muted" },
-          Visual = { fg = "text", bg = "love", inherit = false },
         },
       })
 

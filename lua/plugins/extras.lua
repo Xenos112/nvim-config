@@ -33,5 +33,15 @@ return {
       require("mini.pairs").setup()
       require("mini.ai").setup()
     end
+  },
+  -- lazy.nvim
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    }
   }
 }

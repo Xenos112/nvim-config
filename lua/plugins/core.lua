@@ -12,7 +12,8 @@ return {
           "tsx",
           "gomod",
           "gosum",
-          "hyprlang"
+          "hyprlang",
+          "jsdoc"
         },
         highlight = {
           enable = true,
