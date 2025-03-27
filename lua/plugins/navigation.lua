@@ -1,14 +1,21 @@
 return {
   {
-    'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {},
-    keys = {
-      { "<leader>e", ":Oil<CR>" }
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
     },
-    -- Optional dependencies
-    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    lazy = false,
+    keys = {
+      { "<leader>e", ":Neotree toggle<CR>" },
+    },
+    opts = {
+      window = {
+        width = 25,
+      }
+    },
   },
   {
     'nvim-telescope/telescope.nvim',
