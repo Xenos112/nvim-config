@@ -15,12 +15,10 @@ return {
     tag = '0.1.8',
     opts = function()
       local colors = require("tokyonight.colors").setup() -- pass in any of the config options as explained above
-      local pine_border_color = "#31748f"
-      local pine_background_color = "#191724"
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = pine_border_color, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = pine_border_color, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = pine_border_color, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = pine_border_color, bg = colors.bg_dark })
+      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = colors.bg, bg = colors.bg_dark })
+      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.bg, bg = colors.bg_dark })
+      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = colors.bg, bg = colors.bg_dark })
+      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = colors.bg, bg = colors.bg_dark })
       vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = colors.bg_dark })
       vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = colors.bg_dark })
       vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = colors.bg_dark })
