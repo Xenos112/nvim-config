@@ -5,7 +5,7 @@ return {
     ---@type oil.SetupOpts
     opts = {},
     keys = {
-      { "<leader>e", ":Oil<CR>" }
+      { "<leader>e", "<cmd>Oil<CR>" }
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
@@ -36,10 +36,10 @@ return {
       }
     end,
     keys = {
-      { "<leader>ff", ":Telescope find_files<CR>", { silent = true } },
-      { "<leader>fw", ":Telescope live_grep<CR>",  { silent = true } },
-      { "<leader>fg", ":Telescope git_files<CR>",  { silent = true } },
-      { "<leader>fh", ":Telescope help_tags<CR>",  { silent = true } },
+      { "<leader>ff", "<cmd>Telescope find_files<CR>", { silent = true } },
+      { "<leader>fw", "<cmd>Telescope live_grep<CR>",  { silent = true } },
+      { "<leader>fg", "<cmd>Telescope git_files<CR>",  { silent = true } },
+      { "<leader>fh", "<cmd>Telescope help_tags<CR>",  { silent = true } },
     },
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
