@@ -7,7 +7,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 
-vim.api.nvim_set_hl(0, "YankHighlight", { bg = "#eb6f92", fg = "#191724" })
+vim.api.nvim_set_hl(0, "YankHighlight", { bg = "#3d59a1", fg = "#191724" })
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({
