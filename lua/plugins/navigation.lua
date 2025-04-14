@@ -14,14 +14,6 @@ return {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.8',
     opts = function()
-      local colors = require("tokyonight.colors").setup() -- pass in any of the config options as explained above
-      vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = colors.bg, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.bg, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopeResultsBorder", { fg = colors.bg, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePreviewBorder", { fg = colors.bg, bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = colors.bg_dark })
-      vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = colors.bg_dark })
       return {
         defaults = {
           borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
