@@ -32,7 +32,8 @@ return {
           "prismals",
           "lemminx",
           "pyright",
-          "hyprls"
+          "hyprls",
+          "unocss"
         },
       })
     end
@@ -67,7 +68,7 @@ return {
       end
       local capabilities = require('blink.cmp').get_lsp_capabilities({})
       local servers = { "ts_ls", "gopls", "tailwindcss", "html", "jsonls", "lua_ls", "eslint", "cssls", "clangd", "vuels",
-        "jdtls", "prismals", "lemminx", "pyright", "hyprls" }
+        "jdtls", "prismals", "lemminx", "pyright", "hyprls", "unocss" }
       for _, server in ipairs(servers) do
         lspconfig[server].setup({
           capabilities = capabilities,
