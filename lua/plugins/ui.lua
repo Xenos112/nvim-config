@@ -17,7 +17,6 @@ return {
       require('lualine').setup {
         options = {
           component_separators = '',
-          theme = 'tokyonight',
           section_separators = { left = '', right = '' },
         },
         sections = {
