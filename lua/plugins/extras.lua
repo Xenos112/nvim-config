@@ -38,10 +38,10 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
-    opts = {
-    },
+    opts = {},
     dependencies = {
       "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
     }
   },
   {
@@ -67,6 +67,18 @@ return {
     event = "InsertEnter",
     config = function()
       require("gitsigns").setup()
+    end
+  },
+  {
+    'vimpostor/vim-tpipeline',
+    dependencies = { 'nvim-lualine/lualine.nvim' },
+    lazy = false,
+    opts = {},
+    config = function()
+      vim.g.tpipeline_enabled = 1
+      vim.g.tpipeline_restore = 1
+      vim.g.tpipeline_autoembed = 1
+      vim.g.tpipeline_clearstl = 1
     end
   }
 }
