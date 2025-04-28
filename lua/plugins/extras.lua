@@ -41,33 +41,7 @@ return {
     opts = {},
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
     }
-  },
-  {
-    "goolord/alpha-nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false,
-    config = function()
-      local alpha = require("alpha")
-      local dashboard = require("alpha.themes.dashboard")
-      dashboard.section.header.val = {
-        "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
-        "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
-        "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
-        "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-        "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
-        "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
-      }
-      alpha.setup(dashboard.config)
-    end
-  },
-  {
-    'lewis6991/gitsigns.nvim',
-    event = "InsertEnter",
-    config = function()
-      require("gitsigns").setup()
-    end
   },
   {
     'vimpostor/vim-tpipeline',
@@ -75,8 +49,6 @@ return {
     lazy = false,
     opts = {},
     config = function()
-      vim.g.tpipeline_enabled = 1
-      vim.g.tpipeline_restore = 1
       vim.g.tpipeline_autoembed = 1
       vim.g.tpipeline_clearstl = 1
     end
