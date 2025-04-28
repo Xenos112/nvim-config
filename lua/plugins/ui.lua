@@ -14,12 +14,6 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {},
     config = function()
-      local tpipeline = {
-        function()
-          return vim.fn.TpipelineStatusline()
-        end,
-        color = { fg = '#a9a1e1' }, -- optional: customize color to match your theme
-      }
       require('lualine').setup {
         options = {
           component_separators = '',
@@ -52,7 +46,7 @@ return {
         },
         inactive_sections = {
           lualine_a = { 'filename' },
-          lualine_b = { tpipeline },
+          lualine_b = {},
           lualine_c = {},
           lualine_x = {},
           lualine_y = {},
