@@ -1,16 +1,5 @@
 return {
   {
-    "supermaven-inc/supermaven-nvim",
-    event = "InsertEnter",
-    opts = {
-      keymaps = {
-        accept_suggestion = "<C-y>",
-        clear_suggestion = "<C-]>",
-        accept_word = "<C-j>",
-      },
-    },
-  },
-  {
     "mbbill/undotree",
     keys = {
       { "<leader>u", "<cmd>UndotreeToggle<cr>" },
@@ -32,25 +21,40 @@ return {
       require("mini.comment").setup()
       require("mini.pairs").setup()
       require("mini.ai").setup()
-    end
+    end,
   },
-  -- lazy.nvim
   {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {},
     dependencies = {
       "MunifTanjim/nui.nvim",
-    }
+    },
   },
   {
-    'vimpostor/vim-tpipeline',
-    dependencies = { 'nvim-lualine/lualine.nvim' },
-    lazy = false,
-    opts = {},
+    "lewis6991/gitsigns.nvim",
+    event = "InsertEnter",
+    keys = {
+      { "<leader>gh", "<cmd>Gitsig preview_hunk<cr>" },
+      { "<leader>gs", "<cmd>Gitsig stage_hunk<cr>" },
+      { "<leader>gu", "<cmd>Gitsig undo_stage_hunk<cr>" },
+      { "<leader>gb", "<cmd>Gitsig blame_line<cr>" },
+    },
     config = function()
-      vim.g.tpipeline_autoembed = 1
-      vim.g.tpipeline_clearstl = 1
-    end
-  }
+      require("gitsigns").setup({})
+    end,
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    event = "InsertEnter",
+    dependencies = {
+      { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    build = "make tiktoken",                          -- Only on MacOS or Linux
+    opts = {
+      -- See Configuration section for options
+    },
+    -- See Commands section for default commands if you want to lazy load on them
+  },
 }
