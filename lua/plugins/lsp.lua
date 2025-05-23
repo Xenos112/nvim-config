@@ -1,3 +1,50 @@
+local servers = {
+  "ts_ls",
+  "gopls",
+  "tailwindcss",
+  "html",
+  "jsonls",
+  "lua_ls",
+  "eslint",
+  "cssls",
+  "clangd",
+  "vuels",
+  "jdtls",
+  "prismals",
+  "lemminx",
+  "pyright",
+  "hyprls",
+  "unocss",
+}
+
+local cmp_kinds = {
+  Text = "  ",
+  Method = "󰊕  ",
+  Function = "󰊕  ",
+  Constructor = "󰊕  ",
+  Field = "  ",
+  Variable = "󱄑  ",
+  Class = "  ",
+  Interface = "  ",
+  Module = "󰕳  ",
+  Property = "  ",
+  Unit = "  ",
+  Value = "  ",
+  Enum = "  ",
+  Keyword = "  ",
+  Snippet = "  ",
+  Color = "  ",
+  File = "  ",
+  Reference = "  ",
+  Folder = "󰉋  ",
+  EnumMember = "󰋃  ",
+  Constant = "  ",
+  Struct = "  ",
+  Event = "  ",
+  Operator = "  ",
+  TypeParameter = "  ",
+}
+
 return {
   {
     "williamboman/mason.nvim",
@@ -13,42 +60,22 @@ return {
             package_pending = "➜",
             package_uninstalled = "✗",
           },
-        }
+        },
       })
 
       require("mason-lspconfig").setup({
-        ensure_installed = {
-          "ts_ls",
-          "gopls",
-          "tailwindcss",
-          "html",
-          "jsonls",
-          "lua_ls",
-          "eslint",
-          "cssls",
-          "clangd",
-          "vuels",
-          "jdtls",
-          "prismals",
-          "lemminx",
-          "pyright",
-          "hyprls",
-          "unocss"
-        },
+        ensure_installed = servers,
       })
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      'saghen/blink.cmp',
-    },
     config = function()
-      local lspconfig = require('lspconfig')
+      local lspconfig = require("lspconfig")
       local opts = { noremap = false, silent = true }
 
-      local on_attach = function(client, bufnr)
+      local on_attach = function(_client, bufnr)
         opts.buffer = bufnr
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -66,51 +93,84 @@ return {
         vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
       end
-      local capabilities = require('blink.cmp').get_lsp_capabilities({})
-      local servers = { "ts_ls", "gopls", "tailwindcss", "html", "jsonls", "lua_ls", "eslint", "cssls", "clangd", "vuels",
-        "jdtls", "prismals", "lemminx", "pyright", "hyprls", "unocss" }
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       for _, server in ipairs(servers) do
         lspconfig[server].setup({
           capabilities = capabilities,
           on_attach = on_attach,
         })
       end
-    end
+    end,
   },
   {
-    'saghen/blink.cmp',
-    event = { "InsertEnter" },
-    dependencies = 'rafamadriz/friendly-snippets',
-    version = '1.*',
-    ---@module 'blink.cmp'
-    ---@type blink.cmp.Config
-    opts = {
-      keymap = {
-        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<C-e>'] = { 'hide', 'fallback' },
-        ['<CR>'] = { 'accept', 'fallback' },
-
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
-        ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
-
-        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
-
-        ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
-      },
-
-      appearance = {
-        use_nvim_cmp_as_default = true,
-        nerd_font_variant = 'mono'
-      },
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
-      fuzzy = { implementation = "prefer_rust_with_warning" }
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind.nvim",
     },
-    opts_extend = { "sources.default" }
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "copilot" },
+          { name = "luasnip" },
+        }, {
+          { name = "buffer" },
+          { name = "path" },
+        }),
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+          col_offset = -3,
+          side_padding = 0,
+        },
+        formatting = {
+          fields = { "kind", "abbr", "menu" },
+          format = function(_, vim_item)
+            vim_item.kind = cmp_kinds[vim_item.kind] or ""
+            return vim_item
+          end,
+        },
+      })
+    end,
   },
   {
     "stevearc/conform.nvim",
