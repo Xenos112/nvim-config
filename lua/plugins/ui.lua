@@ -4,23 +4,18 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      local is_transparent = true
+      if vim.g.neovide then
+        is_transparent = false
+      end
       require("rose-pine").setup({
         styles = {
-          transparency = true,
+          transparency = is_transparent,
+          italic = true,
         },
 
         groups = {
-          border = "muted",
-          link = "iris",
-          panel = "surface",
-
-          error = "love",
-          hint = "iris",
-          info = "foam",
-          note = "pine",
-          todo = "rose",
-          warn = "gold",
-
+          border = "foam",
           git_add = "foam",
           git_change = "rose",
           git_delete = "love",
@@ -31,73 +26,140 @@ return {
           git_stage = "iris",
           git_text = "rose",
           git_untracked = "subtle",
-
-          h1 = "iris",
-          h2 = "foam",
-          h3 = "rose",
-          h4 = "gold",
-          -- h5 = "pine",
-          -- h6 = "foam",
         },
 
         highlight_groups = {
-          Comment = { fg = "foam" },
+          Comment = { fg = "muted", italic = true },
           StatusLine = { fg = "love", bg = "love", blend = 15 },
           VertSplit = { fg = "muted", bg = "muted" },
-          Visual = { fg = "base", bg = "text", inherit = false },
+          Visual = { fg = "text", bg = "pine", inherit = false },
+
+          -- telescope
+          TelescopeBorder = { fg = "pine", bg = "none" },
+          TelescopeNormal = { fg = "text", bg = "none" },
+          TelescopeSelection = { fg = "pine", bg = "none" },
+          TelescopeSelectionCaret = { fg = "love", bg = "none" },
+          TelescopeMultiSelection = { fg = "text", bg = "none" },
+
+          TelescopeTitle = { fg = "base", bg = "love" },
+          TelescopePromptTitle = { fg = "base", bg = "pine" },
+          TelescopePreviewTitle = { fg = "base", bg = "iris" },
+
+          TelescopePromptNormal = { fg = "text", bg = "none" },
+          TelescopePromptBorder = { fg = "pine", bg = "none" },
+
+          FloatBorder = { fg = "pine", bg = "none" },
+
+          -- nvim-cmp
+          CmpItemAbbrDeprecated = { fg = "love", bg = "none", strikethrough = true },
+          CmpItemKindVariable = { fg = "foam", bg = "none" },
+          CmpItemKindFunction = { fg = "iris", bg = "none" },
+          CmpItemKindProperty = { fg = "iris", bg = "none" },
+          CmpItemKindMethod = { fg = "iris", bg = "none" },
+          CmpItemKindField = { fg = "iris", bg = "none" },
+          CmpItemKindText = { fg = "rose", bg = "none" },
+          CmpItemKindKeyword = { fg = "gold", bg = "none" },
+          CmpItemKindClass = { fg = "gold", bg = "none" },
+          CmpItemAbbrMatch = { fg = "pine", bg = "none" },
+          CmpItemAbbrMatchFuzzy = { fg = "pine", bg = "none" },
+
+          -- treesitter
+          ["@tag"] = { fg = "rose", bold = true },
+          ["@function.builtin"] = { italic = true },
+          ["@function.macro"] = { italic = true },
+
         },
       })
 
       vim.cmd("colorscheme rose-pine")
-    end
+    end,
   },
   {
-    'nvim-lualine/lualine.nvim',
-    event = "VeryLazy",
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {},
+    "nvim-lualine/lualine.nvim",
+    event = "ColorScheme",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require('lualine').setup {
+      local rose_pine = require("rose-pine.palette")
+      local rose_pine_theme = {
+        normal = {
+          a = { fg = rose_pine.base, bg = rose_pine.pine },
+          b = { fg = rose_pine.pine, bg = rose_pine.base },
+          c = { fg = rose_pine.pine, bg = rose_pine.base },
+          x = { bg = rose_pine.base, fg = rose_pine.pine },
+          y = { bg = rose_pine.pine, fg = rose_pine.base },
+          z = { bg = rose_pine.pine, fg = rose_pine.base },
+        },
+
+        insert = { a = { fg = rose_pine.base, bg = rose_pine.pine } },
+        visual = {
+          a = { fg = rose_pine.base, bg = rose_pine.love },
+          b = { fg = rose_pine.love, bg = rose_pine.base },
+          y = { bg = rose_pine.love, fg = rose_pine.base },
+          z = { bg = rose_pine.love, fg = rose_pine.base },
+        },
+        replace = { a = { fg = rose_pine.base, bg = rose_pine.love } },
+
+        inactive = {
+          a = { fg = rose_pine.text, bg = rose_pine.base },
+          b = { fg = rose_pine.text, bg = rose_pine.base },
+          c = { fg = rose_pine.text },
+        },
+      }
+
+      require("lualine").setup({
         options = {
-          component_separators = '',
-          section_separators = { left = '', right = '' },
+          component_separators = "",
+          theme = rose_pine_theme,
+          section_separators = { left = "", right = "" },
         },
         sections = {
           lualine_a = {
-            { 'mode', separator = { right = '' }, right_padding = 2 },
             {
               function()
-                local devicons = require('nvim-web-devicons')
-                local filename = vim.fn.expand('%:t')
-                local ext = vim.fn.expand('%:e')
+                local devicons = require("nvim-web-devicons")
+                local filename = vim.fn.expand("%:t")
+                local ext = vim.fn.expand("%:e")
                 local icon, _ = devicons.get_icon(filename, ext, { default = true })
-                return vim.trim(icon or '')
+                return vim.trim((icon .. " " .. filename) or "")
               end,
+              separator = { right = "" },
+              right_padding = 2,
             },
-            { 'filename', separator = { right = '' }, right_padding = 2 },
           },
 
-          lualine_b = { { 'branch', separator = { right = "" } }, { 'diagnostics', separator = { right = "" } } },
+          lualine_b = {
+            "branch",
+            {
+              "diagnostics",
+              sources = { "nvim_diagnostic" },
+              sections = { "error", "warn", "info", "hint" },
+              diagnostics_color = {
+                error = { fg = rose_pine.love, bg = rose_pine.base },
+                warn = { fg = rose_pine.gold, bg = rose_pine.base },
+                info = { fg = rose_pine.foam, bg = rose_pine.base },
+                hint = { fg = rose_pine.iris, bg = rose_pine.base },
+              },
+              symbols = { error = " ", warn = " ", info = "󰋼 ", hint = " " },
+            },
+          },
           lualine_c = {
-            '%=',
+            "%=",
           },
-          lualine_x = { { 'diff', symbols = { added = ' ', modified = ' ', removed = ' ' } } },
-          lualine_y = { 'location' },
-          lualine_z = {
-            { 'progress', separator = { right = '' }, left_padding = 2 },
-          },
+          lualine_x = { { "diff", symbols = { added = " ", modified = " ", removed = " " } } },
+          lualine_y = { "location" },
+          lualine_z = {},
         },
         inactive_sections = {
-          lualine_a = { 'filename' },
+          lualine_a = { "filename" },
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
           lualine_y = {},
-          lualine_z = { 'location' },
+          lualine_z = { "location" },
         },
         tabline = {},
         extensions = {},
-      }
-    end
-  }
+      })
+    end,
+  },
 }
