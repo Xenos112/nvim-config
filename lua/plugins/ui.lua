@@ -64,7 +64,7 @@ return {
           CmpItemAbbrMatchFuzzy = { fg = "pine", bg = "none" },
 
           -- treesitter
-          ["@tag"] = { fg = "rose", bold = true },
+          ["@tag"] = { fg = "rose" },
           ["@function.builtin"] = { italic = true },
           ["@function.macro"] = { italic = true },
 
