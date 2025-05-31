@@ -48,13 +48,28 @@ return {
     "CopilotC-Nvim/CopilotChat.nvim",
     event = "InsertEnter",
     dependencies = {
-      { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+      { "github/copilot.vim" },
+      { "nvim-lua/plenary.nvim", branch = "master" },
     },
-    build = "make tiktoken",                          -- Only on MacOS or Linux
+    build = "make tiktoken",
     opts = {
-      -- See Configuration section for options
     },
-    -- See Commands section for default commands if you want to lazy load on them
   },
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      { 'tpope/vim-dadbod',                     lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', lazy = true },
+    },
+    ft = { 'sql', 'mysql', 'plsql' },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  }
 }
