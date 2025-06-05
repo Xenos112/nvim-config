@@ -71,5 +71,15 @@ return {
     init = function()
       vim.g.db_ui_use_nerd_fonts = 1
     end,
+  },
+  {
+    'vimpostor/vim-tpipeline',
+    event = "VeryLazy",
+    config = function()
+      vim.cmd [[
+        set termguicolors
+        let g:tpipeline_autoembed = 1
+      ]]
+    end
   }
 }
