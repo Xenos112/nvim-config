@@ -3,17 +3,12 @@ local servers = {
   "gopls",
   "tailwindcss",
   "html",
-  "jsonls",
   "lua_ls",
   "eslint",
   "cssls",
-  "clangd",
   "vuels",
-  "jdtls",
   "prismals",
-  "lemminx",
   "pyright",
-  "hyprls",
   "unocss",
 }
 
@@ -75,7 +70,7 @@ return {
       local lspconfig = require("lspconfig")
       local opts = { noremap = false, silent = true }
 
-      local on_attach = function(_client, bufnr)
+      local on_attach = function(_, bufnr)
         opts.buffer = bufnr
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -150,7 +145,6 @@ return {
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "codeium" },
           { name = "luasnip" },
         }, {
           { name = "buffer" },
@@ -185,23 +179,15 @@ return {
     config = function()
       require("conform").setup({
         format_on_save = {
-          timeout_ms = 3000,
+          timeout_ms = 5000,
           lsp_fallback = true,
         },
         formatters_by_ft = {
-          markdown = { "prettier" },
-          html = { "prettier" },
-          css = { "prettier" },
-          scss = { "prettier" },
-          javascript = { 'eslint', 'prettier' },
-          javascriptreact = { 'eslint', 'prettier' },
-          typescriptreact = { 'eslint', 'prettier' },
-          typescript = { "prettier" },
-          json = { "prettier" },
-          yaml = { "prettier" },
-          lua = { "stylua" },
-          vue = { 'eslint', 'prettier' },
-          java = { "google-java-format" },
+          javascript = { "prettier", "eslint_d" },
+          typescript = { "prettier", "eslint_d" },
+          javascriptreact = { "prettier", "eslint_d" },
+          typescriptreact = { "prettier", "eslint_d" },
+          vue = { "prettier", "eslint_d" },
         },
       })
     end,
