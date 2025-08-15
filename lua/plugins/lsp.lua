@@ -38,6 +38,7 @@ local cmp_kinds = {
   Event = "  ",
   Operator = "  ",
   TypeParameter = "  ",
+  Supermaven = ""
 }
 
 return {
@@ -144,8 +145,9 @@ return {
           end, { "i", "s" }),
         }),
         sources = cmp.config.sources({
+          { name = "supermaven" },
           { name = "nvim_lsp" },
-          { name = "luasnip" },
+          { name = "luasnip" }
         }, {
           { name = "buffer" },
           { name = "path" },
@@ -163,13 +165,6 @@ return {
             return vim_item
           end,
         },
-      })
-
-      cmp.setup.filetype({ "sql" }, {
-        sources = {
-          { name = "vim-dadbod-completion" },
-          { name = "buffer" }
-        }
       })
     end,
   },

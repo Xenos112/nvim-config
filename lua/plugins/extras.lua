@@ -70,5 +70,12 @@ return {
         let g:tpipeline_autoembed = 1
       ]]
     end
-  }
+  },
+  {
+    "supermaven-inc/supermaven-nvim",
+    event = "VeryLazy",
+    config = function()
+      require("supermaven-nvim").setup({})
+    end,
+  },
 }
