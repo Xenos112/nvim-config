@@ -1,12 +1,15 @@
 local servers = {
   "ts_ls",
+  "gopls",
   "tailwindcss",
   "html",
   "lua_ls",
   "eslint",
   "cssls",
+  "vuels",
   "prismals",
   "pyright",
+  "unocss",
 }
 
 local cmp_kinds = {
