@@ -1,17 +1,3 @@
-local servers = {
-  "ts_ls",
-  "gopls",
-  "tailwindcss",
-  "html",
-  "lua_ls",
-  "eslint",
-  "cssls",
-  "vuels",
-  "prismals",
-  "pyright",
-  "unocss",
-}
-
 local cmp_kinds = {
   Text = "  ",
   Method = "󰊕  ",
@@ -43,13 +29,26 @@ local cmp_kinds = {
 
 return {
   {
-    "williamboman/mason.nvim",
-    lazy = false,
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "ts_ls",
+        "gopls",
+        "tailwindcss",
+        "html",
+        "lua_ls",
+        "eslint",
+        "cssls",
+        "vuels",
+        "prismals",
+        "pyright",
+        "unocss",
+      }
     },
-    config = function()
-      require("mason").setup({
+    lazy = false,
+    dependencies = { {
+      "williamboman/mason.nvim",
+      opts = {
         ui = {
           icons = {
             package_installed = "✓",
@@ -57,46 +56,10 @@ return {
             package_uninstalled = "✗",
           },
         },
-      })
-
-      require("mason-lspconfig").setup({
-        ensure_installed = servers,
-      })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local opts = { noremap = false, silent = true }
-
-      local on_attach = function(_, bufnr)
-        opts.buffer = bufnr
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "<leader>de", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-      end
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      for _, server in ipairs(servers) do
-        lspconfig[server].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-        })
-      end
-    end,
+      },
+    },
+      "neovim/nvim-lspconfig",
+    },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -147,11 +110,11 @@ return {
         sources = cmp.config.sources({
           { name = "supermaven" },
           { name = "nvim_lsp" },
-          { name = "luasnip" }
-        }, {
+          { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
-        }),
+        }
+        ),
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -165,6 +128,13 @@ return {
             return vim_item
           end,
         },
+      })
+
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+      local capabilities = cmp_nvim_lsp.default_capabilities()
+      vim.lsp.config("*", {
+        capabilities = capabilities,
       })
     end,
   },
