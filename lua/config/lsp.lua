@@ -1,6 +1,7 @@
-local on_attach = function(_, bufnr)
-  local opts = { noremap = false, silent = true }
-  opts.buffer = bufnr
+local on_attach = function(args)
+  local bufnr = args.buf
+  local opts = { noremap = false, silent = true, buffer = bufnr }
+
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -18,4 +19,6 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 end
 
-vim.api.nvim_create_autocmd("LspAttach", on_attach)
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = on_attach,
+})

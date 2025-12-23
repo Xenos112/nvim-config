@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- remove the ~ sumbol inthe the lines
+-- remove the ~ symbol in the lines
 vim.opt.fillchars:append({ eob = " " })
 
 vim.o.signcolumn = "yes"

@@ -11,7 +11,6 @@ return {
     opts = {},
     keys = {
       { "<leader>tc", "<cmd>TodoTelescope<cr>" },
-      { "<leader>td", "<cmd>TodoTelescope<cr>" },
     },
   },
   {
@@ -35,10 +34,10 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "InsertEnter",
     keys = {
-      { "<leader>gh", "<cmd>Gitsig preview_hunk<cr>" },
-      { "<leader>gs", "<cmd>Gitsig stage_hunk<cr>" },
-      { "<leader>gu", "<cmd>Gitsig undo_stage_hunk<cr>" },
-      { "<leader>gb", "<cmd>Gitsig blame_line<cr>" },
+      { "<leader>gh", "<cmd>Gitsigns preview_hunk<cr>" },
+      { "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>" },
+      { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>" },
+      { "<leader>gb", "<cmd>Gitsigns blame_line<cr>" },
     },
     config = function()
       require("gitsigns").setup({})
